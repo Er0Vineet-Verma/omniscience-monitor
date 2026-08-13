@@ -1,0 +1,113 @@
+name: CI
+
+# Build and test both modules on every push and pull request.
+#
+# ADR-005 ("heavy infrastructure runs in CI first") calls for a second job that
+# exercises the Kafka and Postgres/Timescale adapters via testcontainers, plus
+# the cross-tenant leak test. That job is deliberately absent rather than
+# stubbed: those adapters do not exist yet (there is one in-memory MetricBus and
+# one JDBC MetricStore, and no Spring profile mechanism), and a job that passes
+# without testing anything is worse than no job at all. It lands in Week 4
+# alongside the tenant model — see the "heavy adapters" note at the bottom.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & test (JDK 21)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      # No .env is needed: every test drives in-memory H2 directly and none of
+      # them load a Spring application context, so DotenvEnvironmentPostProcessor
+      # never runs here. If a @SpringBootTest is added later it will need the
+      # collector's required properties supplied as env vars in this step.
+      - name: Build and test
+        run: mvn -B package
+
+      - name: Summarise test results
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import glob, xml.etree.ElementTree as ET
+
+          rows, tests, failures, errors, skipped = [], 0, 0, 0, 0
+          for path in sorted(glob.glob('**/target/surefire-reports/TEST-*.xml', recursive=True)):
+              root = ET.parse(path).getroot()
+              n  = int(root.get('tests', 0))
+              f  = int(root.get('failures', 0))
+              e  = int(root.get('errors', 0))
+              s  = int(root.get('skipped', 0))
+              tests, failures, errors, skipped = tests + n, failures + f, errors + e, skipped + s
+              rows.append((root.get('name', '?').rsplit('.', 1)[-1], n, f, e, s))
+
+          if not rows:
+              print('## Test results\n\nNo surefire reports were produced — the build failed before tests ran.')
+          else:
+              status = 'green' if failures == 0 and errors == 0 else 'RED'
+              print('## Test results\n')
+              print(f'**{tests} tests, {status}** — {failures} failures, {errors} errors, {skipped} skipped\n')
+              print('| Class | Tests | Failures | Errors | Skipped |')
+              print('|---|---:|---:|---:|---:|')
+              for r in rows:
+                  print('| {} | {} | {} | {} | {} |'.format(*r))
+          PY
+
+      - name: Upload surefire reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: '**/target/surefire-reports/**'
+          retention-days: 7
+
+      - name: Upload jars
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jars
+          path: |
+            agent/target/monitor-agent-*.jar
+            collector/target/monitor-collector-*.jar
+          retention-days: 14
+
+# ── Heavy adapters (Week 4, ADR-005) ────────────────────────────────────────
+# When the Kafka and Postgres adapters exist, add a second job here:
+#
+#   heavy-adapters:
+#     runs-on: ubuntu-latest        # Docker is available on GitHub runners,
+#                                   # which is the whole point of ADR-005 —
+#                                   # the dev machine has none.
+#     steps: … mvn -B verify -Pci
+#
+# It must cover, at minimum:
+#   · KafkaMetricBus behind the MetricBus seam (testcontainers Kafka)
+#   · PostgresMetricStore + Timescale migrations (testcontainers Postgres)
+#   · the cross-tenant leak test — tenant A's credential must never read
+#     tenant B's series. This one is on the "never cut" list, and it currently
+#     has three live targets: JdbcMetricStore.latest() and .percentile() carry
+#     no org_id predicate, the host match is a LIKE substring match, and
+#     CardinalityGuard's "per-org" budget is really the global cache size.
+#     Write it red against today's code, then fix.

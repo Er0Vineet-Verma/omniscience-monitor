@@ -1,0 +1,58 @@
+[
+  {
+    "n": "01-fleet-overview",
+    "title": "Fleet Overview",
+    "id": "c520679561374296ae0a347fdd54a86f",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "02-host-detail",
+    "title": "Host Detail",
+    "id": "984c6b11ff5a44d8963b2a40f0566579",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "03-host-detail-cpu-burn-active",
+    "title": "Host Detail - CPU Burn Active",
+    "id": "06df60b44e7e41f288a8b03c990dc7d3",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "04-alerts-feed",
+    "title": "Alerts Feed",
+    "id": "5899e2a0daf7420e9b4b68cf30f0c602",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "05-agent-enrollment-workflow",
+    "title": "Agent Enrollment Workflow",
+    "id": "35af1c6ae416457c80b9b613e6209a55",
+    "w": "2560",
+    "h": "2460"
+  },
+  {
+    "n": "06-certificate-renewal-flow",
+    "title": "Certificate Renewal Flow",
+    "id": "79b74943bf484716abb0c57b63adbc00",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "07-agent-revocation-workflow",
+    "title": "Agent Revocation Workflow",
+    "id": "a078ad8652184d9db71802d8dd8d5065",
+    "w": "2560",
+    "h": "2048"
+  },
+  {
+    "n": "08-shader",
+    "title": "Shader",
+    "id": "722fa1f4ae6f40179c1ad39f85f6592e",
+    "w": "512",
+    "h": "512"
+  }
+]

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alerts Feed - Omniscience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#7c2d11",
+                        "border-muted": "#374151",
+                        "surface-variant": "#32353c",
+                        "on-secondary": "#002e6a",
+                        "inverse-on-surface": "#2e3037",
+                        "on-primary": "#003731",
+                        "inverse-primary": "#006b5f",
+                        "surface-container-low": "#191c22",
+                        "on-background": "#e1e2eb",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-fixed": "#001a42",
+                        "on-error": "#690005",
+                        "surface-obsidian": "#0B0E14",
+                        "tertiary-container": "#f38764",
+                        "primary-container": "#14b8a6",
+                        "secondary-container": "#0566d9",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "surface-dim": "#10131a",
+                        "secondary": "#adc6ff",
+                        "primary-fixed": "#71f8e4",
+                        "primary-fixed-dim": "#4fdbc8",
+                        "critical-red": "#EF4444",
+                        "surface-container": "#1d2026",
+                        "on-secondary-container": "#e6ecff",
+                        "outline-variant": "#3c4947",
+                        "surface": "#10131a",
+                        "surface-container-lowest": "#0b0e14",
+                        "warning-amber": "#F59E0B",
+                        "on-surface-variant": "#bbcac6",
+                        "on-tertiary-container": "#6c2106",
+                        "error-container": "#93000a",
+                        "primary": "#4fdbc8",
+                        "on-primary-fixed-variant": "#005048",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-tint": "#4fdbc8",
+                        "on-surface": "#e1e2eb",
+                        "error": "#ffb4ab",
+                        "background": "#10131a",
+                        "surface-elevated": "#1F2937",
+                        "on-primary-fixed": "#00201c",
+                        "outline": "#859490",
+                        "secondary-fixed": "#d8e2ff",
+                        "success-green": "#10B981",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#5e1800",
+                        "surface-bright": "#363940",
+                        "surface-charcoal": "#14181F",
+                        "inverse-surface": "#e1e2eb",
+                        "hysteresis-purple": "#8B5CF6",
+                        "on-primary-container": "#00423b",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "tertiary": "#ffb59e",
+                        "surface-container-high": "#272a31",
+                        "surface-container-highest": "#32353c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "12px",
+                        "margin-sm": "16px",
+                        "margin-md": "24px",
+                        "density-compact": "4px 8px",
+                        "density-default": "8px 12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display": ["Geist"],
+                        "body-md": ["Geist"],
+                        "data-tabular": ["JetBrains Mono"],
+                        "metric-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "metric-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0B0E14; color: #e1e2eb; }
+        .glowing-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            box-shadow: 0 0 4px currentColor;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-surface-obsidian font-body-md text-body-md text-on-surface">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-margin-md w-80 shadow-sm fixed left-0 top-0 h-full w-80 bg-surface-charcoal border-r border-border-muted z-40">
+<div class="px-margin-md mb-8 flex items-center gap-3">
+<img alt="Organization Logo" class="w-10 h-10 rounded" data-alt="A minimalist, tech-focused geometric logo representing a highly advanced artificial intelligence or site reliability tool, rendered in vivid digital teal against a dark gray background. The logo is clean and vector-like." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjbIfyUJNUS_y7oGfZEmlWW5vzaOhzIarDs7_tVK6_rki7wWl6VfPFb9mW758VJOe22by9RgOvGOdG5L4-wYcXbOl1SDKuqCttEIswtdbBOfmGukXLOVrl1eWsflRIyGCCReLC8gQis4nx1H0xOOttxFwaJAXqonqScF6vMd0xiMFCGKm_fFYBwt0qtcBRcB4rjZl1fMj0Ho9i5oqNbhj5KfltbvZtInyuN6gLVjb3_GoJPR2EiBsLjwSzY_A3pThmE1Uu9zcnYow"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Core_SRE_Infra</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Tenant: Production-Alpha</p>
+</div>
+</div>
+<div class="px-margin-md mb-6">
+<button class="w-full bg-primary hover:bg-primary-fixed transition-colors duration-150 text-surface-obsidian font-bold py-2 px-4 rounded flex justify-center items-center gap-2 font-label-mono">
+<span class="material-symbols-outlined">add</span>
+                New Incident
+            </button>
+</div>
+<ul class="flex-1 space-y-1">
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>Overview</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dns</span>Hosts</a></li>
+<li><a class="bg-surface-elevated text-primary border-l-4 border-primary px-4 py-2 flex items-center gap-3 transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notification_important</span>Alerts</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>Settings</a></li>
+</ul>
+<div class="mt-auto">
+<ul class="space-y-1">
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>System Health</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu_book</span>Documentation</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-80 flex flex-col h-full overflow-hidden">
+<!-- Mobile Top Nav (Simulated TopAppBar for Mobile) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-md h-12 z-50 bg-surface-obsidian border-b border-border-muted docked full-width top-0">
+<div class="font-headline-md text-headline-md font-black text-primary tracking-tighter">Omniscience</div>
+<div class="flex items-center gap-4">
+<a class="text-primary font-label-mono text-label-mono border-b-2 border-primary pb-1" href="#">Alerts</a>
+</div>
+</header>
+<!-- Page Header -->
+<div class="px-margin-md py-6 border-b border-border-muted bg-surface flex justify-between items-center flex-shrink-0">
+<div>
+<h2 class="font-display text-display text-on-surface">Alerts Feed</h2>
+<div class="flex items-center gap-2 mt-2 font-label-mono text-label-mono text-on-surface-variant">
+<span class="glowing-indicator bg-success-green text-success-green"></span>
+<span>Live Stream Active</span>
+</div>
+</div>
+<button class="border border-border-muted text-on-surface hover:bg-surface-elevated transition-colors duration-150 py-2 px-4 rounded flex items-center gap-2 font-label-mono text-label-mono">
+<span class="material-symbols-outlined">add_alert</span>
+                Create Alert Rule
+            </button>
+</div>
+<div class="flex flex-1 overflow-hidden">
+<!-- Active Alerts Feed -->
+<div class="flex-1 overflow-y-auto p-margin-md space-y-4">
+<!-- FIRING Alert -->
+<div class="bg-surface-charcoal border border-critical-red rounded p-4 relative shadow-[inset_0_0_15px_rgba(239,68,68,0.1)]">
+<div class="absolute top-4 right-4 bg-surface-elevated border border-border-muted rounded px-2 py-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">lock</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">Prod-Enforced</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-critical-red" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<span class="bg-critical-red/20 text-critical-red font-label-mono text-label-mono px-2 py-0.5 rounded border border-critical-red/30 flex items-center gap-1">
+<span class="glowing-indicator bg-critical-red text-critical-red"></span>
+                                    FIRING
+                                </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">2m ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">High Latency on Villain Service</h3>
+<div class="mt-2 grid grid-cols-2 gap-4">
+<div class="bg-surface-elevated p-2 rounded border border-border-muted">
+<div class="font-label-mono text-label-mono text-on-surface-variant mb-1">Metric</div>
+<div class="font-data-tabular text-data-tabular">http_request_duration_seconds{service="villain"}</div>
+</div>
+<div class="bg-surface-elevated p-2 rounded border border-border-muted">
+<div class="font-label-mono text-label-mono text-on-surface-variant mb-1">Threshold</div>
+<div class="font-data-tabular text-data-tabular text-critical-red">val &gt; 1.5s</div>
+<div class="font-data-tabular text-data-tabular text-on-surface mt-1">current: <span class="font-bold">2.8s</span></div>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between">
+<div class="flex gap-2 w-1/2">
+<div class="flex-1 h-1 bg-surface-elevated rounded overflow-hidden">
+<div class="h-full bg-critical-red w-full"></div>
+</div>
+<span class="font-label-mono text-label-mono text-critical-red">Firing Guard: 5m/5m</span>
+</div>
+<a class="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30 px-3 py-1 rounded font-label-mono text-label-mono transition-colors duration-150 flex items-center gap-1" href="#">
+                                     INC-48293
+                                     <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- PENDING Alert -->
+<div class="bg-surface-charcoal border border-warning-amber/50 rounded p-4 relative">
+<div class="flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-warning-amber" style="font-variation-settings: 'FILL' 1;">pending</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<span class="bg-warning-amber/20 text-warning-amber font-label-mono text-label-mono px-2 py-0.5 rounded border border-warning-amber/30">
+                                    PENDING
+                                </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">45s ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Elevated Error Rate - Payment Gateway</h3>
+<div class="mt-2 flex items-center gap-4 bg-surface-elevated p-2 rounded border border-border-muted">
+<div>
+<div class="font-label-mono text-label-mono text-on-surface-variant">Threshold</div>
+<div class="font-data-tabular text-data-tabular text-warning-amber">&gt; 5%</div>
+</div>
+<div class="w-px h-8 bg-border-muted"></div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="flex justify-between font-label-mono text-label-mono text-on-surface-variant mb-1">
+<span>Firing Guard</span>
+<span>45s / 2m</span>
+</div>
+<div class="h-1 bg-surface rounded overflow-hidden">
+<div class="h-full bg-warning-amber w-[35%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RESOLVED Alert -->
+<div class="bg-surface-charcoal border border-border-muted rounded p-4 opacity-75">
+<div class="flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-success-green" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<span class="bg-success-green/20 text-success-green font-label-mono text-label-mono px-2 py-0.5 rounded border border-success-green/30">
+                                    RESOLVED
+                                </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">10m ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant line-through">DB Connection Pool Exhaustion</h3>
+<div class="mt-2 flex items-center gap-4 bg-surface-elevated p-2 rounded border border-border-muted">
+<div class="flex-1 flex flex-col justify-center">
+<div class="flex justify-between font-label-mono text-label-mono text-hysteresis-purple mb-1">
+<span>Hysteresis Recovery Window Met</span>
+<span>3m / 3m</span>
+</div>
+<div class="h-1 bg-surface rounded overflow-hidden">
+<div class="h-full bg-hysteresis-purple w-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Alert Configuration Sidebar -->
+<aside class="w-80 bg-surface-charcoal border-l border-border-muted hidden xl:flex flex-col p-4 overflow-y-auto">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 pb-2 border-b border-border-muted">Rule Configuration</h3>
+<div class="space-y-6">
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-2">Metric Query (PromQL)</label>
+<div class="bg-surface-obsidian p-2 rounded border border-border-muted font-data-tabular text-data-tabular text-secondary break-all">
+                            sum(rate(http_requests_total{status="500"}[5m])) / sum(rate(http_requests_total[5m]))
+                        </div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-2">Predicate</label>
+<select class="w-full bg-surface-elevated border border-border-muted rounded px-2 py-1.5 text-on-surface font-label-mono focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>&gt; (Greater)</option>
+<option>&lt; (Less)</option>
+<option>== (Equal)</option>
+</select>
+</div>
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-2">Threshold</label>
+<input class="w-full bg-surface-obsidian border border-border-muted rounded px-2 py-1.5 text-on-surface font-data-tabular focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text" value="0.05"/>
+</div>
+</div>
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-2">Evaluation Windows</label>
+<div class="space-y-3 bg-surface-elevated p-3 rounded border border-border-muted">
+<div class="flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-on-surface">Firing Guard</span>
+<input class="w-16 bg-surface-obsidian border border-border-muted rounded px-2 py-1 text-on-surface font-data-tabular text-center outline-none" type="text" value="5m"/>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-hysteresis-purple">Hysteresis (Recovery)</span>
+<input class="w-16 bg-surface-obsidian border border-border-muted rounded px-2 py-1 text-on-surface font-data-tabular text-center outline-none border-hysteresis-purple/50" type="text" value="3m"/>
+</div>
+</div>
+</div>
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-2">Severity</label>
+<div class="flex gap-2">
+<button class="flex-1 bg-critical-red/20 text-critical-red border border-critical-red py-1 rounded font-label-mono text-label-mono">CRITICAL</button>
+<button class="flex-1 bg-surface-elevated border border-border-muted text-on-surface-variant py-1 rounded font-label-mono text-label-mono">WARNING</button>
+<button class="flex-1 bg-surface-elevated border border-border-muted text-on-surface-variant py-1 rounded font-label-mono text-label-mono">INFO</button>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full bg-primary/10 border border-primary text-primary hover:bg-primary hover:text-surface-obsidian transition-colors duration-150 py-2 rounded font-label-mono text-label-mono">
+                        Save Configuration
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

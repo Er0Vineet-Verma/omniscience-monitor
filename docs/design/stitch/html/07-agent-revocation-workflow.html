@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agent Revocation &amp; Quarantine - Omniscience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-on-surface": "#2e3037",
+                        "on-secondary": "#002e6a",
+                        "surface-elevated": "#1F2937",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-tertiary": "#5e1800",
+                        "border-muted": "#374151",
+                        "tertiary-container": "#f38764",
+                        "surface-charcoal": "#14181F",
+                        "surface-dim": "#10131a",
+                        "on-primary-fixed-variant": "#005048",
+                        "error": "#ffb4ab",
+                        "warning-amber": "#F59E0B",
+                        "on-background": "#e1e2eb",
+                        "primary-container": "#14b8a6",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-container": "#e6ecff",
+                        "on-primary-container": "#00423b",
+                        "background": "#10131a",
+                        "surface-container": "#1d2026",
+                        "outline": "#859490",
+                        "surface": "#10131a",
+                        "on-surface-variant": "#bbcac6",
+                        "primary-fixed": "#71f8e4",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-container": "#6c2106",
+                        "on-surface": "#e1e2eb",
+                        "success-green": "#10B981",
+                        "inverse-primary": "#006b5f",
+                        "inverse-surface": "#e1e2eb",
+                        "outline-variant": "#3c4947",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#00201c",
+                        "surface-bright": "#363940",
+                        "surface-container-high": "#272a31",
+                        "secondary-container": "#0566d9",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#32353c",
+                        "surface-container-lowest": "#0b0e14",
+                        "critical-red": "#EF4444",
+                        "primary-fixed-dim": "#4fdbc8",
+                        "tertiary": "#ffb59e",
+                        "secondary": "#adc6ff",
+                        "surface-variant": "#32353c",
+                        "surface-obsidian": "#0B0E14",
+                        "hysteresis-purple": "#8B5CF6",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-low": "#191c22",
+                        "primary": "#4fdbc8",
+                        "surface-tint": "#4fdbc8",
+                        "on-tertiary-fixed-variant": "#7c2d11",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "on-primary": "#003731"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "density-compact": "4px 8px",
+                        "unit": "4px",
+                        "margin-md": "24px",
+                        "gutter": "12px",
+                        "density-default": "8px 12px",
+                        "margin-sm": "16px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Geist", "sans-serif"],
+                        "display": ["Geist", "sans-serif"],
+                        "data-tabular": ["JetBrains Mono", "monospace"],
+                        "body-md": ["Geist", "sans-serif"],
+                        "metric-lg": ["JetBrains Mono", "monospace"],
+                        "label-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    fontSize: {
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "display": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "data-tabular": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "metric-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+                        "label-mono": ["12px", { lineHeight: "16px", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glowing-indicator {
+            box-shadow: 0 0 4px rgba(239, 68, 68, 0.8);
+        }
+        .crt-scanline {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        .glitch-text {
+            animation: glitch 1s linear infinite;
+        }
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
+        }
+    </style>
+</head>
+<body class="bg-surface-obsidian text-on-surface h-screen w-full overflow-hidden flex flex-col font-body-md">
+<!-- TopNavBar -->
+<nav class="bg-surface-obsidian dark:bg-surface-obsidian border-b border-border-muted flex justify-between items-center w-full px-margin-md h-12 z-50 shrink-0 hidden md:flex">
+<div class="flex items-center gap-6 h-full">
+<span class="font-headline-md text-headline-md font-black text-primary dark:text-primary tracking-tighter">Omniscience</span>
+<div class="flex h-full items-end gap-6">
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-elevated transition-colors duration-150 h-full flex items-center px-2 cursor-pointer active:opacity-80" href="#">
+<span class="font-headline-md text-headline-md">Fleet</span>
+</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-headline-md text-headline-md hover:bg-surface-elevated transition-colors duration-150 h-full flex items-center px-2 cursor-pointer active:opacity-80" href="#">
+<span>Hosts</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-elevated transition-colors duration-150 h-full flex items-center px-2 cursor-pointer active:opacity-80" href="#">
+<span class="font-headline-md text-headline-md">Alerts</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-mono text-label-mono text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">INC-48293</span>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">sensors</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">settings</span>
+</div>
+</div>
+</nav>
+<div class="flex h-[calc(100vh-3rem)] w-full">
+<!-- SideNavBar -->
+<aside class="bg-surface-charcoal dark:bg-surface-charcoal border-r border-border-muted flex flex-col h-full py-margin-md w-80 shadow-sm shrink-0 hidden md:flex">
+<div class="px-4 mb-6">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded bg-surface-elevated flex items-center justify-center border border-border-muted overflow-hidden">
+<img alt="Organization Logo" class="w-full h-full object-cover" data-alt="A detailed digital avatar or abstract geometric logo suitable for a high-tech corporate organization, featuring crisp edges, a dark background with subtle neon blue highlights, conveying trust and precision in an SRE context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASQhT5RBsXkepZpAM9oOpACM_DPuRxitA0JN0Ov8RFtyilVuJ9FoAwXX1QMERUSQlfaLkhsmvA6a1z4fts1fEEdszhHY8H2TpVK4PxPqXun4XSuLa1yorg7GVrMUrSJvyDf4RrXCkfUG8GbeKvhxS48D_kpVqY4FrZht_NuU9OwAIRAeMk46O0f5WjmzvhbmUd2QCxnzycC8f32NSAKBjUjAy_AqnDSZMvTeH9qB6vr3frw6TUYBl1lMpeknmlMRhWu3NuCdkFTnk"/>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-primary">Core_SRE_Infra</div>
+<div class="font-label-mono text-label-mono text-on-surface-variant">Tenant: Production-Alpha</div>
+</div>
+</div>
+<button class="w-full bg-surface-elevated border border-border-muted text-on-surface py-1.5 rounded hover:bg-surface-container-high transition-colors font-label-mono text-label-mono flex items-center justify-center gap-2 mt-4">
+<span class="material-symbols-outlined text-[16px]">add</span> New Incident
+                </button>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">dashboard</span> Overview
+                </a>
+<a class="bg-surface-elevated text-primary border-l-4 border-primary px-4 py-2 flex items-center gap-3 transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">dns</span> Hosts
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">notification_important</span> Alerts
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+                </a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 pt-4 border-t border-border-muted px-2">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">analytics</span> System Health
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">menu_book</span> Documentation
+                </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-auto p-margin-md relative">
+<div class="absolute inset-0 crt-scanline z-50"></div>
+<div class="max-w-[1400px] mx-auto grid grid-cols-12 gap-unit-md relative z-10 gap-4">
+<!-- Header -->
+<header class="col-span-12 mb-4 flex justify-between items-start border-b border-border-muted pb-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="font-display text-display text-on-surface">Revocation Target</h1>
+<div class="flex items-center gap-2 bg-error-container/20 border border-critical-red px-2 py-0.5 rounded">
+<div class="w-1.5 h-1.5 rounded-full bg-critical-red glowing-indicator"></div>
+<span class="font-label-mono text-label-mono text-critical-red glitch-text">CRITICAL: COMPROMISED</span>
+</div>
+</div>
+<div class="font-data-tabular text-data-tabular text-on-surface-variant">
+                            HOST: <span class="text-on-surface">production-alpha-collector-01</span> | IP: 10.42.19.103
+                        </div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<button class="bg-critical-red text-white px-6 py-2 rounded font-headline-md text-headline-md shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:bg-red-600 transition-colors flex items-center gap-2 border border-red-400">
+<span class="material-symbols-outlined">gavel</span>
+                            REVOKE &amp; QUARANTINE
+                        </button>
+<span class="font-label-mono text-label-mono text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-warning-amber"></span> Awaiting Confirmation
+                        </span>
+</div>
+</header>
+<!-- Left Column: Context & Status -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-4">
+<!-- Active Quarantine Status -->
+<div class="bg-[#14181F] border border-border-muted rounded p-4 relative overflow-hidden">
+<div class="absolute top-2 right-2 flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-label-mono text-label-mono text-[10px]">EnforceVisibility</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-warning-amber">shield_locked</span>
+                            Active Quarantine
+                        </h2>
+<div class="space-y-3 font-data-tabular text-data-tabular">
+<div class="flex justify-between items-center border-b border-border-muted/50 pb-2">
+<span class="text-on-surface-variant">mTLS Tunnel</span>
+<span class="text-critical-red font-bold">SEVERED</span>
+</div>
+<div class="flex justify-between items-center border-b border-border-muted/50 pb-2">
+<span class="text-on-surface-variant">Ingress Traffic</span>
+<span class="text-critical-red font-bold">DROPPED</span>
+</div>
+<div class="flex justify-between items-center border-b border-border-muted/50 pb-2">
+<span class="text-on-surface-variant">Egress Traffic</span>
+<span class="text-critical-red font-bold">DROPPED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Disk State</span>
+<span class="text-warning-amber">READ_ONLY</span>
+</div>
+</div>
+</div>
+<!-- Forensics Context -->
+<div class="bg-[#14181F] border border-border-muted rounded p-4 border-l-2 border-l-primary">
+<h2 class="font-headline-md text-headline-md text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">policy</span>
+                            Forensics Context
+                        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-3">
+                            The agent on this host is cryptographically barred from the infrastructure. The node identity certificate has been explicitly revoked across the control plane.
+                        </p>
+<div class="bg-surface-obsidian p-2 rounded border border-border-muted font-label-mono text-label-mono text-on-surface flex items-start gap-2">
+<span class="material-symbols-outlined text-warning-amber text-[16px] mt-0.5">info</span>
+<span>A fresh mTLS bootstrap using a rotated hardware root of trust is required for re-entry.</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Visualization & Logs -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-4">
+<!-- Revocation by Fingerprint -->
+<div class="bg-[#14181F] border border-border-muted rounded p-4 h-64 flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">fingerprint</span>
+                            Revocation Propagation
+                        </h2>
+<div class="flex-1 bg-surface-obsidian border border-border-muted rounded relative overflow-hidden flex items-center justify-center">
+<!-- Abstract visual representation -->
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-elevated/20 via-surface-obsidian to-surface-obsidian"></div>
+<div class="z-10 text-center flex flex-col items-center gap-2">
+<div class="font-data-tabular text-data-tabular text-on-surface-variant bg-surface p-2 rounded border border-border-muted shadow-lg">
+<span class="text-critical-red">SHA-256:</span> 8f4c9a3b...e7d2
+                                </div>
+<div class="flex gap-4 items-center opacity-70">
+<span class="material-symbols-outlined text-critical-red">arrow_downward</span>
+</div>
+<div class="flex gap-2">
+<div class="w-16 h-8 bg-surface border border-critical-red rounded flex items-center justify-center font-label-mono text-label-mono text-critical-red text-[10px]">CRL</div>
+<div class="w-16 h-8 bg-surface border border-critical-red rounded flex items-center justify-center font-label-mono text-label-mono text-critical-red text-[10px]">EDGE</div>
+<div class="w-16 h-8 bg-surface border border-critical-red rounded flex items-center justify-center font-label-mono text-label-mono text-critical-red text-[10px]">AUTH</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Audit Trail -->
+<div class="bg-[#0B0E14] border border-border-muted rounded p-0 flex flex-col flex-1 min-h-[250px]">
+<div class="bg-[#14181F] px-4 py-2 border-b border-border-muted flex justify-between items-center">
+<h2 class="font-label-mono text-label-mono text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">terminal</span>
+                                Security Audit Trail
+                            </h2>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-[10px] text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> LIVE
+                            </div>
+</div>
+<div class="p-4 font-data-tabular text-data-tabular text-on-surface-variant overflow-y-auto space-y-2">
+<div class="flex gap-3">
+<span class="text-[#859490] shrink-0">[09:42:01]</span>
+<span class="text-warning-amber shrink-0">THREAT_DETECTED:</span>
+<span>Anomalous binary execution detected on host.</span>
+</div>
+<div class="flex gap-3">
+<span class="text-[#859490] shrink-0">[09:42:05]</span>
+<span class="text-secondary-fixed-dim shrink-0">ADMIN_ACTION:</span>
+<span>Revocation triggered for Fingerprint SHA-256: 8f4c9a...</span>
+</div>
+<div class="flex gap-3">
+<span class="text-[#859490] shrink-0">[09:42:06]</span>
+<span class="text-tertiary-container shrink-0">PKI_STATE:</span>
+<span>Certificate Serial 0x4F9... added to CRL (Certificate Revocation List).</span>
+</div>
+<div class="flex gap-3 bg-surface-elevated/50 border-l-2 border-primary pl-2 py-1 -ml-[10px]">
+<span class="text-[#859490] shrink-0">[09:42:08]</span>
+<span class="text-primary shrink-0">EDGE_POLICY:</span>
+<span class="text-on-surface">Revocation pushed to 48 global collectors.</span>
+</div>
+<div class="flex gap-3 opacity-50">
+<span class="text-[#859490] shrink-0">[09:42:09]</span>
+<span class="text-on-surface-variant shrink-0">SYSTEM:</span>
+<span class="animate-pulse">Awaiting final acknowledgment from nodes...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,21 @@
+# Build output (safe unanchored: no source dir is ever named "target")
+target/
+
+# Runtime data — anchored (IMS lesson: unanchored dir patterns once swallowed a source package)
+/collector/data/
+/collector/logs/
+
+# Secrets — never committed
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Documentation kept local, deliberately unpublished — the code is the record.
+# (SYSTEM-DESIGN.md, PROGRESS.md, HANDOVER.md, README.md and docs/design/DESIGN.md
+#  all live on disk only. Remove this rule to start publishing them.)
+*.md

@@ -1,0 +1,49 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: omniscience-collector
+  datasource:
+    url: jdbc:h2:file:./data/monitor
+    username: sa
+    password:
+  flyway:
+    enabled: true
+    # The week-1 database already has V1's tables, created by the old schema.sql.
+    # Baselining marks it as at V1 so only V2+ apply; a fresh database runs everything.
+    baseline-on-migrate: true
+    baseline-version: 1
+
+monitor:
+  # Secrets resolve from .env / environment ONLY — no committed fallbacks, fail-fast when missing.
+  agent-token: ${MONITOR_AGENT_TOKEN}
+  org-id: org-demo
+  bus-capacity: 1000
+  alert:
+    # Rules themselves live in the alert_rule table (seeded by V5) and are edited
+    # through /api/v1/rules — only the sweep cadence is configuration.
+    evaluate-ms: 15000
+  cardinality:
+    max-tag-keys: 10
+    max-tag-key-length: 64
+    max-tag-value-length: 128
+    max-name-length: 255
+    max-series-per-org: 10000
+  rollup:
+    resolutions: [1m, 5m, 1h]
+    lag-seconds: 30        # wait past a bucket's end before sealing it (late arrivals)
+    interval-ms: 60000
+  retention:
+    raw-days: 15
+    rollup-days: 90
+    interval-ms: 3600000
+  ims:
+    enabled: true
+    base-url: http://localhost:8080
+    email: ${IMS_MONITOR_EMAIL}
+    password: ${IMS_MONITOR_PASSWORD}
+
+logging:
+  level:
+    com.omniscience: INFO

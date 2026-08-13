@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#7c2d11",
+                        "border-muted": "#374151",
+                        "surface-variant": "#32353c",
+                        "on-secondary": "#002e6a",
+                        "inverse-on-surface": "#2e3037",
+                        "on-primary": "#003731",
+                        "inverse-primary": "#006b5f",
+                        "surface-container-low": "#191c22",
+                        "on-background": "#e1e2eb",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-fixed": "#001a42",
+                        "on-error": "#690005",
+                        "surface-obsidian": "#0B0E14",
+                        "tertiary-container": "#f38764",
+                        "primary-container": "#14b8a6",
+                        "secondary-container": "#0566d9",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "surface-dim": "#10131a",
+                        "secondary": "#adc6ff",
+                        "primary-fixed": "#71f8e4",
+                        "primary-fixed-dim": "#4fdbc8",
+                        "critical-red": "#EF4444",
+                        "surface-container": "#1d2026",
+                        "on-secondary-container": "#e6ecff",
+                        "outline-variant": "#3c4947",
+                        "surface": "#10131a",
+                        "surface-container-lowest": "#0b0e14",
+                        "warning-amber": "#F59E0B",
+                        "on-surface-variant": "#bbcac6",
+                        "on-tertiary-container": "#6c2106",
+                        "error-container": "#93000a",
+                        "primary": "#4fdbc8",
+                        "on-primary-fixed-variant": "#005048",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-tint": "#4fdbc8",
+                        "on-surface": "#e1e2eb",
+                        "error": "#ffb4ab",
+                        "background": "#10131a",
+                        "surface-elevated": "#1F2937",
+                        "on-primary-fixed": "#00201c",
+                        "outline": "#859490",
+                        "secondary-fixed": "#d8e2ff",
+                        "success-green": "#10B981",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#5e1800",
+                        "surface-bright": "#363940",
+                        "surface-charcoal": "#14181F",
+                        "inverse-surface": "#e1e2eb",
+                        "hysteresis-purple": "#8B5CF6",
+                        "on-primary-container": "#00423b",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "tertiary": "#ffb59e",
+                        "surface-container-high": "#272a31",
+                        "surface-container-highest": "#32353c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "12px",
+                        "margin-sm": "16px",
+                        "margin-md": "24px",
+                        "density-compact": "4px 8px",
+                        "density-default": "8px 12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display": ["Geist"],
+                        "body-md": ["Geist"],
+                        "data-tabular": ["JetBrains Mono"],
+                        "metric-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "metric-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><meta charset="utf-8"/><link data-snapdom="injected-import" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes glitch {
+        0% { transform: translate(0) }
+        20% { transform: translate(-2px, 1px); text-shadow: 1px 0 #EF4444; }
+        40% { transform: translate(-1px, -1px); text-shadow: -1px 0 #EF4444; }
+        60% { transform: translate(2px, 1px); text-shadow: 1px 0 #EF4444; }
+        80% { transform: translate(1px, -1px); text-shadow: -1px 0 #EF4444; }
+        100% { transform: translate(0) }
+    }
+    @keyframes pulse-red {
+        0%, 100% { color: #EF4444; opacity: 1; }
+        50% { color: #ffb4ab; opacity: 0.8; }
+    }
+    .animate-glitch {
+        animation: glitch 0.2s ease-in-out infinite alternate;
+    }
+    .animate-pulse-red {
+        animation: pulse-red 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+}
+</style>
+</head><body class="bg-surface-obsidian text-on-surface font-body-md antialiased overflow-hidden flex h-screen">
+<!-- Side-->
+<nav class="hidden md:flex bg-surface-charcoal border-r border-border-muted fixed left-0 top-0 h-full w-80 flex-col py-margin-md shadow-sm z-40 transition-all duration-200 ease-in-out">
+<div class="px-margin-md mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary text-xl" data-original-icon="corporate_fare">corporate_fare</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Core_SRE_Infra</h1>
+</div>
+</div>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Tenant: Production-Alpha</p>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary-fixed py-2 rounded font-label-mono text-label-mono font-bold hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span> New Incident
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="flex flex-col space-y-1">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">dashboard</span> Overview
+                </a>
+<a class="bg-surface-elevated text-primary border-l-4 border-primary px-4 py-2 flex items-center gap-3 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">dns</span> Hosts
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">notification_important</span> Alerts
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+                </a>
+</div>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-border-muted flex flex-col space-y-1">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">analytics</span> System Health
+            </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">menu_book</span> Documentation
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-80 flex flex-col h-screen overflow-hidden bg-surface-obsidian">
+<!-- TopAppBar (Mobile Nav & Global Search/Actions) -->
+<header class="flex justify-between items-center w-full px-margin-md h-12 z-50 bg-surface-obsidian border-b border-border-muted shrink-0">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Breadcrumbs/Context -->
+<div class="hidden sm:flex items-center font-label-mono text-label-mono text-on-surface-variant">
+<span class="hover:text-primary cursor-pointer transition-colors">Hosts</span>
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<span class="text-on-surface">production-alpha-collector-01</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success-green glow-indicator"></span>
+<span class="font-label-mono text-label-mono text-success-green">Live</span>
+</div>
+<div class="h-4 w-px bg-border-muted mx-2"></div>
+<span class="font-label-mono text-label-mono text-primary bg-primary/10 px-2 py-0.5 rounded cursor-pointer hover:bg-primary/20 transition-colors">INC-48293</span>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80"><span class="material-symbols-outlined">sensors</span></button>
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80"><span class="material-symbols-outlined">notifications</span></button>
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80"><span class="material-symbols-outlined">settings</span></button>
+</div>
+<div class="w-7 h-7 rounded-full bg-surface-charcoal border border-border-muted overflow-hidden ml-2 cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A macro shot of a sleek, dark metallic server chassis showing glowing optical cables and LED indicators in a low-light, high-tech server room environment. The aesthetic is cybernetic and modern, with deep blacks and vibrant digital teal accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw98rTjHAaruyj3AcX-RB43bV0-CXj1g2qQsb0_AbehTNXSF1deGsRSYQ8eNWne-nHsc01A77M6Lf_ZTF0IGzcuQAinahqFQVEwSQm04ZpqTtr-RZGq3cmIzbgHkS3koulYXvsIR3613iYM2_T5dvngN0xLeMR1Jl0Ij6pRn58g8TzmfWV5YyRQAa_8u4Xcx7UMGUBXNYiTJ0RwVhXubPrpbHlu5_xhZN-vb6aIwhXZIZghafRlcPrVMzowdLrmseGayxJwZDVLYM"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar">
+<div class="max-w-[1600px] mx-auto space-y-6">
+<!-- Header / Meta Card -->
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-6 relative"><div class="flex items-center gap-3 mb-4 animate-glitch" id="simulation-controls"><div class="flex items-center gap-2 bg-surface-obsidian px-2 py-1 rounded border border-critical-red/30 group cursor-pointer hover:bg-error-container/5 transition-colors">
+<span class="material-symbols-outlined text-[14px] text-critical-red">skull</span>
+<span class="font-label-mono text-label-mono text-critical-red">Villain Mode</span>
+<div class="w-7 h-3.5 bg-surface-charcoal rounded-full relative border border-border-muted ml-1">
+<div class="absolute right-0.5 top-0.5 w-2 h-2 bg-critical-red rounded-full glow-indicator-critical"></div>
+</div>
+</div>
+<div class="relative group/menu">
+<button class="flex items-center gap-1.5 bg-surface-obsidian px-2 py-1 rounded border border-border-muted hover:border-primary transition-colors font-label-mono text-label-mono text-on-surface-variant hover:text-primary">
+<span class="">Simulate</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<div class="absolute top-full left-0 mt-1 w-40 bg-surface-obsidian border border-border-muted rounded shadow-xl z-50 hidden group-hover/menu:block">
+<div class="flex flex-col p-1">
+<button class="flex items-center px-3 py-2 text-left font-label-mono text-label-mono text-critical-red hover:bg-error-container/10 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px] mr-2">local_fire_department</span>
+                Burn CPU
+            </button>
+<button class="flex items-center px-3 py-2 text-left font-label-mono text-label-mono text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded transition-colors">
+<span class="material-symbols-outlined text-[14px] mr-2">memory</span>
+                Memory Leak
+            </button>
+<button class="flex items-center px-3 py-2 text-left font-label-mono text-label-mono text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded transition-colors">
+<span class="material-symbols-outlined text-[14px] mr-2">error</span>
+                Throw 500s
+            </button>
+</div>
+</div>
+</div></div>
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h2 class="font-display text-display text-on-surface">production-alpha-collector-01</h2>
+<span class="bg-success-green/10 text-success-green border border-success-green/20 px-2 py-0.5 rounded text-xs font-label-mono flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-success-green glow-indicator"></span>
+                                    HEALTHY
+                                </span>
+</div>
+<div class="flex flex-wrap gap-x-8 gap-y-2 mt-4 font-label-mono text-label-mono text-on-surface-variant">
+<div class="flex flex-col">
+<span class="text-border-muted uppercase tracking-wider text-[10px]">CPU Model</span>
+<span class="text-on-surface">AMD EPYC 7763 64-Core</span>
+</div>
+<div class="flex flex-col">
+<span class="text-border-muted uppercase tracking-wider text-[10px]">Memory</span>
+<span class="text-on-surface">256 GB ECC DDR4</span>
+</div>
+<div class="flex flex-col">
+<span class="text-border-muted uppercase tracking-wider text-[10px]">Primary IP</span>
+<span class="text-on-surface">10.42.19.201</span>
+</div>
+<div class="flex flex-col">
+<span class="text-border-muted uppercase tracking-wider text-[10px]">OS</span>
+<span class="text-on-surface">Ubuntu 22.04 LTS (Kernel 5.15)</span>
+</div>
+<div class="flex flex-col">
+<span class="text-border-muted uppercase tracking-wider text-[10px]">Uptime</span>
+<span class="text-on-surface">142d 11h 23m</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid for Dashboards -->
+<div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Live Metrics (Spans multiple columns) -->
+<div class="lg:col-span-2 xl:col-span-3 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+                                Live Metrics
+                            </h3>
+<div class="text-xs font-label-mono text-on-surface-variant flex items-center gap-2">
+                                Last updated: <span class="text-on-surface">Just now</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- CPU Usage -->
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-4 h-48 relative overflow-hidden group hover:bg-surface-elevated transition-colors">
+<!-- STITCH_SHADER_START:ANIMATION_6 class="absolute inset-0 w-full h-full pointer-events-none opacity-50 mix-blend-screen" -->
+<div class="absolute inset-0 w-full h-full pointer-events-none opacity-50 mix-blend-screen" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_6" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_6');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Base intense red/orange palette
+    vec3 colorA = vec3(0.8, 0.1, 0.1); // Deep Red
+    vec3 colorB = vec3(1.0, 0.4, 0.0); // Vibrant Orange
+    
+    // Vertical spikes/waves
+    float spike = sin(uv.x * 50.0 + u_time * 15.0) * 0.1;
+    float line = smoothstep(0.45 + spike, 0.5 + spike, uv.y) - smoothstep(0.5 + spike, 0.55 + spike, uv.y);
+    
+    // Pulse intensity
+    float pulse = sin(u_time * 10.0) * 0.5 + 0.5;
+    
+    // Moving noise "static"
+    float n = noise(uv * 10.0 + u_time * 5.0);
+    
+    vec3 finalColor = mix(colorA, colorB, uv.y + pulse * 0.2);
+    finalColor += n * 0.1 * pulse;
+    
+    // Glow effect
+    float dist = abs(uv.y - (0.5 + spike));
+    float glow = exp(-dist * 10.0) * pulse;
+    finalColor += colorB * glow;
+
+    gl_FragColor = vec4(finalColor, 0.8 * glow);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_6 -->
+<div class="flex justify-between items-start mb-2 relative z-10">
+<span class="font-label-mono text-label-mono text-on-surface-variant animate-pulse-red">CPU Usage %</span>
+<span class="font-metric-lg text-metric-lg text-critical-red animate-pulse-red">99.8%</span>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-24 opacity-60 z-10">
+<!-- Decorative Spike Visualization representing 'Burn-CPU' -->
+<svg class="w-full h-full stroke-critical-red fill-none stroke-2" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0,35 L10,34 L20,32 L30,35 L40,10 L45,5 L50,30 L60,35 L70,32 L80,36 L90,35 L100,34" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="absolute bottom-4 right-4 bg-error-container/20 border border-critical-red/30 px-2 py-1 rounded text-[10px] font-label-mono text-critical-red flex items-center gap-1 backdrop-blur-sm z-10">
+<span class="w-1.5 h-1.5 rounded-full bg-critical-red glow-indicator-critical"></span>
+                                    SPIKE DETECTED
+                                </div>
+</div>
+<!-- Memory -->
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-4 h-48 relative hover:bg-surface-elevated transition-colors">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Memory (GB)</span>
+<span class="font-metric-lg text-metric-lg text-on-surface">142<span class="text-sm text-on-surface-variant">/256</span></span>
+</div>
+<div class="mt-8">
+<div class="w-full bg-surface-obsidian h-4 rounded-full overflow-hidden border border-border-muted flex">
+<div class="bg-primary h-full" style="width: 55%"></div>
+<div class="bg-warning-amber h-full" style="width: 15%"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-label-mono text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-primary inline-block rounded-sm"></span> Active</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-warning-amber inline-block rounded-sm"></span> Cache/Buffers</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-surface-obsidian border border-border-muted inline-block rounded-sm"></span> Free (30%)</span>
+</div>
+</div>
+</div>
+<!-- Disk I/O -->
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-4 h-48 hover:bg-surface-elevated transition-colors flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Disk I/O (MB/s)</span>
+</div>
+<div class="flex justify-around items-end h-24 mb-2 gap-2">
+<!-- Fake bar chart -->
+<div class="w-full bg-surface-obsidian rounded-t relative h-full flex flex-col justify-end group-hover:bg-surface-container-low">
+<div class="bg-primary/40 w-full h-[30%]"></div>
+<div class="bg-primary w-full h-[15%]"></div>
+</div>
+<div class="w-full bg-surface-obsidian rounded-t relative h-full flex flex-col justify-end">
+<div class="bg-primary/40 w-full h-[40%]"></div>
+<div class="bg-primary w-full h-[20%]"></div>
+</div>
+<div class="w-full bg-surface-obsidian rounded-t relative h-full flex flex-col justify-end">
+<div class="bg-primary/40 w-full h-[20%]"></div>
+<div class="bg-primary w-full h-[10%]"></div>
+</div>
+<div class="w-full bg-surface-obsidian rounded-t relative h-full flex flex-col justify-end">
+<div class="bg-primary/40 w-full h-[80%] border-t border-primary"></div>
+<div class="bg-primary w-full h-[15%]"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-label-mono text-on-surface-variant">
+<span class="">R: 1.2k</span>
+<span class="">W: 4.8k</span>
+</div>
+</div>
+<!-- Network pps -->
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-4 h-48 hover:bg-surface-elevated transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Network (pps)</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex-1">
+<div class="text-xs text-on-surface-variant font-label-mono mb-1">Inbound (eth0)</div>
+<div class="font-metric-lg text-metric-lg text-secondary">48.2k</div>
+</div>
+<div class="w-px h-12 bg-border-muted"></div>
+<div class="flex-1">
+<div class="text-xs text-on-surface-variant font-label-mono mb-1">Outbound (eth0)</div>
+<div class="font-metric-lg text-metric-lg text-tertiary">112.4k</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Agent & Status -->
+<div class="lg:col-span-1 xl:col-span-1 space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">security</span>
+                            Agent Status
+                        </h3>
+<div class="bg-surface-charcoal border border-border-muted rounded-lg p-4 flex flex-col gap-4">
+<!-- mTLS Cert -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">mTLS Certificate</span>
+<span class="bg-warning-amber/10 text-warning-amber border border-warning-amber/20 px-1.5 py-0.5 rounded text-[10px] font-label-mono">RENEWING SOON</span>
+</div>
+<div class="bg-surface-obsidian border border-border-muted rounded p-3 text-xs font-label-mono text-on-surface">
+<div class="grid grid-cols-[80px_1fr] gap-2 mb-2">
+<span class="text-on-surface-variant">Subject:</span>
+<span class="truncate">CN=production-alpha-collector-01,O=Core_SRE_Infra</span>
+</div>
+<div class="grid grid-cols-[80px_1fr] gap-2 mb-2">
+<span class="text-on-surface-variant">Issuer:</span>
+<span class="truncate">CN=Internal-Root-CA-G3</span>
+</div>
+<div class="grid grid-cols-[80px_1fr] gap-2">
+<span class="text-on-surface-variant">Lifetime:</span>
+<div>
+<div class="flex justify-between mb-1">
+<span class="">78% consumed</span>
+<span class="text-warning-amber">Auto-renew @ 75%</span>
+</div>
+<div class="w-full bg-surface-charcoal h-1.5 rounded-full overflow-hidden">
+<div class="bg-warning-amber h-full" style="width: 78%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Enrollment -->
+<div class="pt-4 border-t border-border-muted">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Enrollment Token</span>
+<span class="material-symbols-outlined text-success-green text-[16px]">check_circle</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-obsidian border border-border-muted rounded px-3 py-2">
+<span class="font-label-mono text-label-mono text-on-surface opacity-50 truncate flex-1">tk_live_9f8d...a1b2</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]" data-original-icon="content_">content_copy</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Process List (Full width) -->
+<div class="space-y-4 pt-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">list_alt</span>
+                            Top Processes
+                        </h3>
+<div class="flex items-center gap-2">
+<button class="bg-surface-charcoal border border-border-muted text-on-surface-variant px-3 py-1 rounded text-xs font-label-mono hover:text-on-surface hover:border-outline transition-colors">
+                                 Sort: CPU (Desc)
+                             </button>
+</div>
+</div>
+<div class="bg-surface-charcoal border border-border-muted rounded-lg overflow-x-auto">
+<table class="w-full text-left font-data-tabular text-data-tabular">
+<thead class="bg-surface-obsidian border-b border-border-muted">
+<tr>
+<th class="px-4 py-2 font-medium text-on-surface-variant">PID</th>
+<th class="px-4 py-2 font-medium text-on-surface-variant">Command</th>
+<th class="px-4 py-2 font-medium text-on-surface-variant">User</th>
+<th class="px-4 py-2 font-medium text-on-surface-variant text-right">CPU %</th>
+<th class="px-4 py-2 font-medium text-on-surface-variant text-right">RSS (MB)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-muted/50">
+<tr class="hover:bg-surface-elevated transition-colors bg-error-container/5">
+<td class="px-4 py-2 text-primary">48921</td>
+<td class="px-4 py-2 text-on-surface truncate max-w-[300px]">/opt/omni/bin/collector-agent --worker-threads=64</td>
+<td class="px-4 py-2 text-on-surface-variant">omni-agent</td>
+<td class="px-4 py-2 text-critical-red text-right font-bold">87.4</td>
+<td class="px-4 py-2 text-on-surface text-right">4096.2</td>
+</tr>
+<tr class="hover:bg-surface-elevated transition-colors">
+<td class="px-4 py-2 text-primary">1204</td>
+<td class="px-4 py-2 text-on-surface truncate max-w-[300px]">/usr/bin/containerd</td>
+<td class="px-4 py-2 text-on-surface-variant">root</td>
+<td class="px-4 py-2 text-on-surface text-right">12.1</td>
+<td class="px-4 py-2 text-on-surface text-right">512.8</td>
+</tr>
+<tr class="hover:bg-surface-elevated transition-colors">
+<td class="px-4 py-2 text-primary">993</td>
+<td class="px-4 py-2 text-on-surface truncate max-w-[300px]">/usr/lib/systemd/systemd-journald</td>
+<td class="px-4 py-2 text-on-surface-variant">root</td>
+<td class="px-4 py-2 text-on-surface text-right">4.2</td>
+<td class="px-4 py-2 text-on-surface text-right">256.0</td>
+</tr>
+<tr class="hover:bg-surface-elevated transition-colors">
+<td class="px-4 py-2 text-primary">48900</td>
+<td class="px-4 py-2 text-on-surface truncate max-w-[300px]">node /app/server.js</td>
+<td class="px-4 py-2 text-on-surface-variant">node-app</td>
+<td class="px-4 py-2 text-on-surface text-right">2.8</td>
+<td class="px-4 py-2 text-on-surface text-right">1024.5</td>
+</tr>
+<tr class="hover:bg-surface-elevated transition-colors">
+<td class="px-4 py-2 text-primary">1</td>
+<td class="px-4 py-2 text-on-surface truncate max-w-[300px]">/sbin/init</td>
+<td class="px-4 py-2 text-on-surface-variant">root</td>
+<td class="px-4 py-2 text-on-surface text-right">0.1</td>
+<td class="px-4 py-2 text-on-surface text-right">12.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+    document.querySelectorAll('canvas[data-shader]').forEach(canvas => {
+        const gl = canvas.getContext('webgl');
+        if (!gl) return;
+        
+        const fragmentShaderSource = canvas.getAttribute('data-shader');
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            varying vec2 v_texCoord;
+            void main() {
+                gl_Position = a_position;
+                v_texCoord = (a_position.xy + 1.0) / 2.0;
+            }
+        `;
+        
+        function compileShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return shader;
+        }
+        
+        const vs = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        
+        const program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+        gl.useProgram(program);
+        
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = [
+            -1.0, -1.0,
+             1.0, -1.0,
+            -1.0,  1.0,
+            -1.0,  1.0,
+             1.0, -1.0,
+             1.0,  1.0,
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        
+        const positionLocation = gl.getAttribLocation(program, "a_position");
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+        
+        const timeLocation = gl.getUniformLocation(program, "u_time");
+        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+        
+        function render(time) {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            gl.uniform1f(timeLocation, prefersReducedMotion ? 0 : time * 0.001);
+            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            if (!prefersReducedMotion) {
+                requestAnimationFrame(render);
+            }
+        }
+        
+        const resize = () => {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        };
+        window.addEventListener('resize', resize);
+        resize();
+        
+        requestAnimationFrame(render);
+    });
+</script>
+</body></html>

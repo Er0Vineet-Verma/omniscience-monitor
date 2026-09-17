@@ -19,3 +19,6 @@ target/
 # (SYSTEM-DESIGN.md, PROGRESS.md, HANDOVER.md, README.md and docs/design/DESIGN.md
 #  all live on disk only. Remove this rule to start publishing them.)
 *.md
+
+# ...but the README is the front door of a public repo — publish that one.
+!README.md
